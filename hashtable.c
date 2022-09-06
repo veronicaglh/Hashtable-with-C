@@ -205,16 +205,18 @@ void ht_dump(ht_t *hashtable) {
     }
 }
 
+/*The main function will pass the first round of key-value pairs to the set function*/
+/*You can change the key-value pairs to other values*/
 int main(int argc, char **argv) {
     ht_t *ht = ht_create();
 
-    ht_set(ht, "name1", "em");
-    ht_set(ht, "name2", "russian");
-    ht_set(ht, "name3", "pizza");
-    ht_set(ht, "name4", "doge");
-    ht_set(ht, "name5", "pyro");
-    ht_set(ht, "name6", "joost");
-    ht_set(ht, "name7", "kalix");
+    ht_set(ht, "name1", "Bob");
+    ht_set(ht, "name2", "Alex");
+    ht_set(ht, "name3", "Jane");
+    ht_set(ht, "name4", "John");
+    ht_set(ht, "name5", "Sam");
+    ht_set(ht, "name6", "Mary");
+    ht_set(ht, "name7", "Eddie");
 
     ht_dump(ht);
 
