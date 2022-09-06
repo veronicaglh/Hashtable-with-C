@@ -64,3 +64,79 @@ ht_t *ht_create(void) {
 
     return hashtable;
 }
+
+
+void ht_set(ht_t *hashtable, const char *key, const char *value) {
+    unsigned int slot = hash(key);
+
+    // try to look up an entry set
+    entry_t *entry = hashtable->entries[slot];
+
+    // no entry means slot empty, insert immediately
+    if (entry == NULL) {
+        hashtable->entries[slot] = ht_pair(key, value);
+        return;
+    }
+
+    entry_t *prev;
+
+    // walk through each entry until either the end is
+    // reached or a matching key is found
+    while (entry != NULL) {
+        // check key
+        if (strcmp(entry->key, key) == 0) {
+            // match found, replace value
+            free(entry->value);
+            entry->value = malloc(strlen(value) + 1);
+            strcpy(entry->value, value);
+            return;
+        }
+
+        // walk to next
+        prev = entry;
+        entry = prev->next;
+    }
+
+    // end of chain reached without a match, add new
+    prev->next = ht_pair(key, value);
+}
+
+char *ht_get(ht_t *hashtable, const char *key) {
+    unsigned int slot = hash(key);
+
+    // try to find a valid slot
+    entry_t *entry = hashtable->entries[slot];
+
+    // no slot means no entry
+    if (entry == NULL) {
+        return NULL;
+    }
+
+    // walk through each entry in the slot, which could just be a single thing
+    while (entry != NULL) {
+        // return value if found
+        if (strcmp(entry->key, key) == 0) {
+            return entry->value;
+        }
+
+        // proceed to next key if available
+        entry = entry->next;
+    }
+
+    // reaching here means there were >= 1 entries but no key match
+    return NULL;
+}
+
+void ht_del(ht_t *hashtable, const char *key) {
+    unsigned int bucket = hash(key);
+
+    // try to find a valid bucket
+    entry_t *entry = hashtable->entries[bucket];
+
+    // no bucket means no entry
+    if (entry == NULL) {
+        return;
+    }
+
+    entry_t *prev;
+    int idx = 0;
