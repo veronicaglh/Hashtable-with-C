@@ -1,0 +1,1 @@
+###### This program will implement the hash table data structure using C programming language. To compile this program in Ubuntu or other Linux Distributions you can use the command: gcc -o hashtable hashtable.c. To run this program you can use the command: ./hashtable 
